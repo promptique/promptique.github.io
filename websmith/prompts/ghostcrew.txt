@@ -1,0 +1,39 @@
+Build me a scroll-driven landing page called "Ghost Crew" as ONE self-contained index.html file. Vanilla HTML, CSS and JavaScript only: no frameworks, no libraries. The idea: one big main cursor with six small "worker" cursors orbiting it. When the visitor scrolls, the workers fly off and build a full website on a design canvas in front of them, element by element. At the end they fly back and orbit the main cursor again.
+
+LAYOUT
+- A sticky stage (about 1600vh of scroll) containing a design-tool canvas: light grey #e8e9ee with a 24px dot grid, and a dark app bar at the top showing the file name, six coloured avatar dots (one per worker) and a live "% built" counter, plus a thin multicolour progress line.
+- In the centre of the canvas sits a 1200px wide white "page" (rounded corners, soft shadow). It gets scaled to fit the viewport, and a camera follows the active worker as it builds.
+
+PHASES (driven by scroll progress 0 to 1)
+1. Hero (0 to ~17%): the main cursor (large arrow with a soft pulsing halo) floats in the centre. The six workers orbit it on an ellipse, each at its own speed. A headline sits below: "A website that builds itself." Scrolling begins the scatter: each worker leaves its orbit on a curved arc toward its first task.
+2. Build (~17% to ~84%): every element of the page is a task with a start time, an owner (worker 1 to 6) and a type:
+   - box: a rectangle (or rounded card, circle, or button) that draws from its corner outward, with a blue selection outline and two square handles while it is being drawn.
+   - text: characters type out one by one with a blinking caret.
+   - line: a stroke draws from point A to B (dashed for guides).
+   - dup: an element is copied and slides to a new spot ("Duplicate").
+   While working, each cursor carries a name tag (Maya, Dev, Sora, Leo, Ines, Kai) and a small action label (Rectangle, Type, Pen, Duplicate). Between tasks, cursors move with easing, never teleport. Build a believable landing page this way: nav, hero headline, buttons, logo row, three feature cards, a stats band, testimonial, pricing, footer.
+3. Finale (~84% to 100%): the workers fly back on arcs and orbit the main cursor again. Text reads "Built by six cursors. Now it is your turn." with a button.
+Scrolling backwards must reverse everything exactly, because every position is a pure function of scroll progress.
+
+CUSTOMISER (a floating "Customise" button, bottom left, opens a dark panel)
+Every option applies live and is saved to localStorage, with a Reset button:
+- Worker colour: team colours (each worker has its own), black, white, or a custom colour picker.
+- Main cursor colour: four presets plus a picker. The halo takes this colour.
+- Arrow shape: classic, sharp, dart, rounded, blade, crosshair, ring (all drawn as inline SVG, each with a correct hotspot).
+- Border: none (the default: plain cursors with no outline) or on, with a border colour picker and a width slider (0.5 to 4).
+- Cursor size slider (0.7x to 1.8x).
+- Shadow: none, soft, lifted, glow (glow uses the cursor's own colour).
+- Name tags: pill, rounded, sharp, or hidden.
+- Main cursor halo: on or off.
+- Canvas: light, white, dark, midnight.
+
+OUTRO (after the stage)
+A dark section: "Built live, every visit." with a short line, a feature list and a call to action.
+
+TECHNICAL
+- Smooth the scroll value with lerp inside one requestAnimationFrame loop. Only animate transforms and opacity.
+- Use Inter (or system sans) for the canvas content, and big condensed uppercase headings (Anton) for the hero and finale.
+- On narrow screens, shrink the orbit, scale the page to fit, and keep the hint text clear of the cursors.
+- No console errors. Test at 1280x760 and 390x844.
+
+Deliver the complete file, ready to open in a browser.

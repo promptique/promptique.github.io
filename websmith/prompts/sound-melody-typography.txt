@@ -1,0 +1,36 @@
+Build me an interactive musical name page called "Sound Melody Typography" as ONE self-contained index.html file. Vanilla HTML, CSS and JavaScript only: no libraries, no audio files. Every sound is synthesised live with the Web Audio API.
+
+THE IDEA
+Any name becomes a piano. The default name is DEEPANSH (replace with yours). Every letter is a key. Hover, tap or type a letter and it plays a note, glows in that note's colour and releases a floating music note. Sweep across the whole name from left to right and it plays a complete melody, then rewards you with a finale.
+
+NAME CUSTOMISER
+- Under the hint text, a slim input ("Type any name") with a gold "Make it sing" button.
+- On submit: keep only letters and single spaces, uppercase, max 18 characters. Save to localStorage and to the URL (?name=...) so the link can be shared. Rebuild the word, the keys, the progress dashes and the scroll section with no page reload, then reveal the new letters one by one, each playing its note.
+- One word shows as one word. Two words (e.g. DEEPANSH DEEP) show with a gap, and the gap gets no key. Never repeat the name to fill space.
+- Auto-size the letters to the name's length so they always fit on one line.
+
+DESIGN
+- Background #07060a. Ivory text #f3ede2. Gold accent #e0bd73. Muted text #8d8899.
+- The name: Anton (or another heavy condensed display face), uppercase, about 12vw, letters outlined in faint ivory (transparent fill, 1.5px stroke).
+- Under the name, one ivory piano key per letter in a row, with a soft bottom shadow.
+- Labels: Inter 600, 11px, uppercase, letter-spacing .32em, gold. Accent headings: Cormorant Garamond italic.
+
+SOUND ENGINE (Web Audio)
+- Create the AudioContext only after the first user gesture. Show a gold "Tap to wake the piano" button and a sound on/off toggle in the header with a small animated equaliser.
+- Chain: master gain to a compressor to the output, plus a convolver reverb built from a generated noise buffer with an exponential decay (about 2.5 s), mixed in at around 30%.
+- A piano note = a triangle oscillator at the fundamental plus sine partials at 2x, 3x, 4x and 5x with falling amplitudes, a slightly detuned copy for warmth, a lowpass filter that closes over 1.5 s, a fast attack (6 ms), a decay to sustain and a long exponential release, plus a tiny burst of high-passed noise for the hammer.
+- Generate the melody from the name's length: walk a C major pentatonic ladder (MIDI 60, 62, 64, 67, 69, 72, 74, 76, 79, 81, 84, 86, 88) along an arch (rise, then fall), dip one step on every third note, never repeat a note twice in a row, and end on 72 (or 84) so it always resolves. Nudge it slightly by each letter's character code, so different names sound different.
+
+INTERACTION
+- Hover (desktop), touch-drag (mobile) or type a letter: the letter jumps up, fills with its note colour (one hue per pitch), gets a strong glow, and its key presses down. A random music glyph rises and fades from the pointer, a ring ripples outward, and a large blurred colour bloom appears behind it for a moment.
+- Typing: keys follow the name in order, so typing the name plays its melody. Ignore typing while the name input is focused.
+- Sweep detection: if all the letters are played in order with less than 2.5 s between them, run a finale. Play a rolled chord, light every letter in a wave, and show "Melody unlocked." in gold italic. One small progress dash per letter under the keys fill as the sequence builds.
+- Section 2, "Scroll to play" (sticky; height grows with the name length): the name, shown once, slides horizontally with scroll past a thin gold centre line. Each letter plays its note the moment it crosses the line, then lights up.
+- Section 3, "Encore": "Play the melody" button (auto-plays the phrase with the letters lighting) and "Strike a chord" button.
+
+TECHNICAL
+- Use pointer events plus a passive:false touchmove so finger sweeps work on phones.
+- No sound before a user gesture (browser rule). Never throw errors if audio is blocked.
+- Responsive down to 360px wide. Test at 1280x760 and 390x844.
+
+Deliver the complete file, ready to open in a browser.

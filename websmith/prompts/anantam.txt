@@ -1,0 +1,49 @@
+Build me a luxury watch landing page as ONE self-contained index.html file. Vanilla HTML, CSS and JavaScript only: no frameworks, no libraries, no CDN links. Every animation must be driven by scroll, not by clicks. Mobile and desktop must both look finished.
+
+BRAND (replace with mine)
+- Brand: Anantam Watches. Model: Emerald.
+- Tagline: "Beyond Time. Infinite Presence."
+- Logo: a thin infinity symbol drawn as an SVG path in gold, next to the brand name.
+
+IMAGE I WILL GIVE YOU (embed it as base64 so the file works anywhere)
+- face.jpg: a square crop of the watch photographed straight on, centred on the bezel, with the thin chronograph hands removed. The hour and minute hands stay painted in.
+- exploded.jpg (optional): the watch's layers stacked vertically, with no text, for the anatomy section.
+
+THE CORE EFFECT: A REAL 3D WATCH (WebGL2, no libraries)
+- Build the watch as real geometry in code, with interleaved position, normal and UV buffers:
+  - dial disc with face.jpg mapped on it
+  - lathe-turned case side with a gold bezel edge, plus a case-back ring
+  - exhibition case back that shows the movement (the face texture mirrored and darkened)
+  - domed sapphire crystal drawn last with blending: Fresnel reflections plus a tight specular highlight
+  - knurled gold crown and two gold pushers
+  - four lugs
+  - two-tone bracelet links (steel outer, gold centre) laid along a wrist-shaped arc
+- Studio metal shader: an analytic environment (top softbox, two side strip lights, dark floor), Fresnel-Schlick reflectance (steel F0 ≈ .87, gold F0 = (1, .77, .38)), fine brushed streaks on steel, ACES tone mapping. The photo face gets only light shading, so it stays true to the photo.
+- It is alive: in the face shader, rotate the UVs inside the balance-wheel circle back and forth (about 2.5 Hz, ±24°) with a soft edge. Add 3D gold hands: a chronograph seconds hand that sweeps and speeds up with scroll velocity, and a small-seconds hand that ticks once per second.
+- It reacts to the mouse: hovering near the watch tilts it toward the cursor (up to about ±38°). Dragging spins it freely in any direction with inertia, so you can see the side and the case back. After 1.4 s it settles back to the scroll pose. On phones, a horizontal finger drag spins it (an invisible hit circle with touch-action: pan-y keeps vertical scrolling working).
+- One watch travels through the whole page: a fixed full-screen canvas behind the content. Each section has a keyframe (screen position of the dial centre, scale, rotateX/Y/Z, opacity), and you smoothstep between them by scroll position.
+- A green radial glow follows it. If WebGL is unavailable, fall back to the photo with CSS 3D tilt.
+
+DESIGN SYSTEM
+- Background #03100a (emerald black). Gold #d8b46a with a lighter gold #f1d9a0. Cream text #efe8d8. Muted text #8ea397. Hairlines rgba(216,180,106,.2).
+- Headings: Cormorant Garamond 500, with italic words in light gold. Labels: Inter 600, 10 to 11px, uppercase, letter-spacing .32em, gold. Body: Inter 15px, line-height 1.75, muted.
+- Primary button: gold gradient (135deg, #f1d9a0 to #d8b46a to #b48f45), dark text, uppercase, wide letter-spacing, soft gold shadow. Ghost button: 1px gold hairline.
+- Plenty of empty space. Nothing overlaps unless it is meant to.
+
+SECTIONS, IN ORDER (each one sticky, so its scroll progress drives the keyframes)
+1. Hero: text on the left (label "Anantam Watches presents", the model name huge in serif with a gold gradient, the italic tagline, Reserve and Discover buttons). The watch sits on the right, tilted about -36deg on Y and 14deg on X.
+2. Statement (220vh): the watch glides to the left and turns the other way. A serif sentence on the right lights up word by word.
+3. Dial zoom (400vh): the watch centres, faces you, and scales to about 2.5x around the dial centre. A "Movement running" label with a pulsing dot appears. Four glass callout cards appear one at a time: open dial, the balance, the chronograph, the bezel.
+4. Anatomy (760vh): the watch shrinks and fades as exploded.jpg fades in on the right. The image is drawn twice: a dim copy, and a bright copy masked to the active part's band with a soft linear-gradient mask. The camera keeps the active band centred. Seven parts with numbered text on the left. At the end, the watch fades back in.
+5. Specs (220vh): the watch on the right. Six spec rows slide in one by one on the left.
+6. Reserve (200vh): the watch rises to the top centre. "Wear forever." and a Reserve button fade up below it, opening a demo reservation modal.
+7. Footer.
+On mobile, keep the watch centred in the upper half and put all text in the lower half.
+
+SCROLL ENGINE
+- For each sticky section: progress = clamp(-rect.top / (rect.height - innerHeight), 0, 1). Smooth it every frame with value += (target - value) * 0.12 inside one requestAnimationFrame loop.
+- Use a smoothstep helper for every fade so nothing pops.
+- Only animate transform, opacity, clip-path and mask. No layout thrashing.
+- Recalculate sizes on resize. Test at 1280x760 and at 390x844.
+
+Deliver the complete file, ready to open in a browser.

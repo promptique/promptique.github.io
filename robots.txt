@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://promptique.github.io/sitemap-index.xml
