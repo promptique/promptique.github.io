@@ -1,0 +1,21 @@
+Build me a "scratch to reveal" landing page as ONE self-contained index.html file. Vanilla HTML, CSS and JavaScript only: no frameworks, no libraries, no CDN links.
+
+LAYOUT
+Dark warm background. Two columns on desktop: left is a big serif headline (two lines, the second line italic in an accent colour), a short paragraph and a small hint line "Scratch the picture / Click to change it". Right is a 4:5 picture frame with a canvas inside. On mobile it stacks. Tiny caption under the frame with the picture name and "01 / 03".
+
+THE EFFECT
+1. The picture is never shown directly. It is drawn as a halftone: a grid of dots (about 60 columns). Each dot's radius follows the brightness of the picture at that cell. Normal dots are warm ivory, the brightest ones are the accent colour.
+2. When the pointer moves or a finger drags over the canvas, it leaves soft round blobs along the path. Draw the blobs on a small offscreen canvas (quarter size), then threshold the alpha so the edge becomes crisp and slightly liquid. Use that shape as a mask (destination-in) over the full colour picture, drawn on top of the dots.
+3. Each blob shrinks with age and disappears over about 9 seconds, so the scratch slowly heals and the dots return.
+4. A tap or click without dragging moves to the next picture. The dots morph: each dot grows or shrinks to its new size in a diagonal wave from top-left to bottom-right, with a small brightness flash in the middle of the wave.
+5. Every 9 seconds, if nobody is touching it, the picture changes by itself.
+6. On load, run a short scripted scratch so people see what to do. Hide the hint after the first real scratch.
+
+PICTURES
+Use 3 pictures. Put them in a CONFIG object at the top of the script (src, caption). If src is empty, draw a built-in demo picture with canvas code so the page works with no image files. Cover-fit every photo into the frame.
+
+QUALITY
+- Pointer events only, touch-action: pan-y so the page still scrolls on phones.
+- Cap devicePixelRatio at 2. Pause the loop when the tab is hidden or the frame is off screen.
+- Respect prefers-reduced-motion (no auto change, no scripted scratch).
+- Everything editable (title, text, colours, pictures, brush size, timings) in one CONFIG object at the top.

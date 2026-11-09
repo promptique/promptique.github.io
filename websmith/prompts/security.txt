@@ -1,0 +1,45 @@
+ROLE
+You are a senior application security engineer. Harden the website in this folder, end to end, without asking me questions. Work autonomously. If something is unclear, choose the safest option and list it in your final report.
+
+RULES
+1. Work on a new git branch. Commit in small steps. Never push to the main branch, never rewrite git history, never delete files without listing them.
+2. Never print, copy or send any secret value you find. Report only the file, the line and the kind of secret.
+3. Install only well known open source tools from the official registries (npm or pip). Do not run scripts from unknown sources.
+4. Do not change the design or the copy. Security changes only.
+5. After every change, rebuild and confirm the site still builds and every page still loads and every form still works.
+
+STEP 1. DISCOVER
+Detect the framework, the build command, the output folder, where the site is hosted (GitHub Pages, Netlify, Vercel, other), and every place where users can type something (forms, search, comments) or pay.
+
+STEP 2. SECRETS
+Scan the working tree AND the full git history for API keys, tokens, passwords, private keys, .env files, service account files and webhook URLs. Use a scanner such as detect-secrets or gitleaks if it installs cleanly, plus your own pattern search. If anything real is found: tell me to rotate it immediately (rotation is the real fix, deleting the file is not), and add the path to .gitignore. Confirm that anything only meant for the server is not shipped to the browser.
+
+STEP 3. WHAT IS SHIPPED TO VISITORS
+- Source maps, backup files, .git folders, notes, drafts and admin pages must not be in the public output.
+- No inline secrets in HTML or JS bundles.
+- Every external script, style and font: is it necessary, from a trusted source, and loaded over https. Add integrity (SRI) hashes where the file is fixed. Remove anything unused.
+- Links that open a new tab need rel="noopener noreferrer".
+
+STEP 4. SECURITY HEADERS AND POLICY
+GitHub Pages cannot set real HTTP headers, so add what works in HTML: a Content-Security-Policy meta tag (as strict as the site allows, no unsafe-eval, explain every unsafe-inline you must keep), a referrer policy meta tag, and a strict frame-ancestors note. If the host supports a headers file (Netlify _headers, Vercel vercel.json), write the full set: Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, and frame protection. Test that the site still works under the policy and that nothing is blocked.
+
+STEP 5. FORMS AND INPUT
+For each form: validate on the server side if there is a server, add a honeypot field and basic rate limiting where possible, make sure the form endpoint is https, never put personal data in the URL, and never trust data coming from the browser. Escape anything that is printed back into a page. Check for DOM based XSS: innerHTML, document.write, eval, and unsanitised location or query values.
+
+STEP 6. PAYMENTS (if any)
+Card details must go straight to the payment provider (hosted checkout or their official script). The site must never touch, log or store card numbers. Confirm amounts and order status are verified on the server or by the provider, not trusted from the browser. Webhooks must verify the provider signature.
+
+STEP 7. DEPENDENCIES AND SUPPLY CHAIN
+Run npm audit or pip audit. Update vulnerable packages only when the build still passes. Add automatic update pull requests (Dependabot or Renovate) and list anything you could not fix. Pin GitHub Actions to a version.
+
+STEP 8. REPORTING AND TRUST FILES
+Add /.well-known/security.txt with a real contact email I give below and an expiry date one year ahead. Add a short SECURITY.md. Make sure the privacy page, terms page and refund policy exist if the site takes money or personal data.
+
+STEP 9. FINAL REPORT
+Give me: what you fixed (one line each), what you found and could not fix, secrets that need rotating, and a checklist of things only I can do: turn on two factor authentication on GitHub, email, domain and payment accounts; turn on branch protection and required reviews; enable secret scanning and push protection; use signed commits; keep a backup of the repo; check the domain registrar lock. Rank findings as critical, high, medium, low. Be blunt. Do not pad.
+
+MY DETAILS (fill in before you paste, or leave as is)
+- Live address:
+- Hosting:
+- Security contact email:
+- Does the site take payments or personal data? (yes or no, and how):

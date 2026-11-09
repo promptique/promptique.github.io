@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scratch Reveal | Free WebSmith template</title>
+<meta name="description" content="A dotted halftone picture that turns to full colour wherever you scratch it. Click to change the picture. One HTML file, no libraries. Free template with the prompt included.">
+<link rel="canonical" href="https://promptique.github.io/websmith/project-4-scratch-reveal/">
+<meta name="theme-color" content="#0b0a0c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Scratch Reveal | Free WebSmith template">
+<meta property="og:description" content="A dotted halftone picture that turns to full colour wherever you scratch it. Click to change the picture.">
+<meta property="og:url" content="https://promptique.github.io/websmith/project-4-scratch-reveal/">
+<meta property="og:image" content="https://promptique.github.io/websmith/assets/t4.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--bg:#0b0a0c;--ink:#f0e6d6;--hot:#e3a15d;--mut:#8d8780;--line:rgba(240,230,214,.14);--serif:Georgia,'Times New Roman',serif;--sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+*{box-sizing:border-box}html{background:var(--bg)}
+body{margin:0;min-height:100svh;background:radial-gradient(90% 70% at 70% 40%,#16120f,var(--bg));color:var(--ink);font-family:var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+header{position:absolute;inset:0 0 auto;display:flex;justify-content:space-between;align-items:center;padding:22px clamp(20px,5vw,64px);z-index:3;font:600 11px/1 var(--sans);letter-spacing:.28em;text-transform:uppercase}
+header a{text-decoration:none;color:var(--mut)}header a:hover{color:var(--hot)}
+.hero{min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,80px);padding:96px clamp(20px,5vw,64px) 48px;max-width:1400px;margin:0 auto}
+.k{margin:0 0 22px;font:600 11px/1 var(--sans);letter-spacing:.34em;text-transform:uppercase;color:var(--hot)}
+h1{margin:0;font:400 clamp(46px,7.6vw,118px)/.94 var(--serif);letter-spacing:-.02em}
+h1 em{display:block;color:var(--hot);font-style:italic}
+.lead{margin:28px 0 0;max-width:30em;color:#bdb5a9;font-size:clamp(15px,1.25vw,18px);line-height:1.65}
+.hint{margin:34px 0 0;display:flex;align-items:center;gap:14px;font:600 11px/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--mut);transition:opacity .6s}
+.hint i{width:34px;height:1px;background:var(--hot);display:block}
+.hint.gone{opacity:0}
+figure{margin:0;justify-self:center;width:min(100%,calc(78svh*.8))}
+#frame{position:relative;aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:#161213;box-shadow:0 40px 120px -50px rgba(227,161,93,.35),inset 0 0 0 1px var(--line);cursor:crosshair}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+figcaption{display:flex;justify-content:space-between;gap:12px;margin-top:14px;font:500 12px/1.4 var(--sans);color:var(--mut)}
+figcaption b{color:var(--hot);font-weight:700;letter-spacing:.14em}
+footer{padding:0 clamp(20px,5vw,64px) 40px;text-align:center;font:500 12px/1.6 var(--sans);color:var(--mut)}
+footer a{color:var(--ink)}
+@media(max-width:860px){.hero{grid-template-columns:1fr;padding-top:84px}figure{width:min(100%,520px)}h1{font-size:clamp(44px,13vw,80px)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><a href="../index.html#templates">&larr; WebSmith</a><span style="color:var(--hot)" data-brand>Scratch Reveal</span></header>
+<section class="hero">
+  <div>
+    <p class="k" data-kicker>Free WebSmith template</p>
+    <h1 data-title>Scratch<em>to reveal.</em></h1>
+    <p class="lead" data-lead>Every picture starts as a field of warm dots. Run your finger or mouse across it and the dots melt into the real colour photograph underneath. Click, and it turns into the next one.</p>
+    <p class="hint" id="hint"><i></i><span>Scratch the picture &middot; Click to change it</span></p>
+  </div>
+  <figure>
+    <div id="frame"><canvas id="c" aria-label="A halftone picture. Scratch it to reveal the colour photograph, click to change picture." role="img"></canvas></div>
+    <figcaption><span id="cap"></span><span><b id="idx">01</b> / <span id="tot">03</span></span></figcaption>
+  </figure>
+</section>
+<footer>A free template from <a href="../index.html">WebSmith</a> by <a href="/">Promptique</a>. One HTML file, no libraries.</footer>
+
+<script>
+/* ======================= EDIT THESE ======================= */
+const CONFIG={
+  title:['Scratch','to reveal.'],            // headline, two lines
+  kicker:'Free WebSmith template',
+  lead:'Every picture starts as a field of warm dots. Run your finger or mouse across it and the dots melt into the real colour photograph underneath. Click, and it turns into the next one.',
+  /* Your pictures. Put image file paths in src (for example 'me.jpg'). Leave src empty to use the built-in demo art. */
+  photos:[
+    {src:'',caption:'Dusk',art:'dusk'},
+    {src:'',caption:'Aurora',art:'aurora'},
+    {src:'',caption:'Ember',art:'ember'}
+  ],
+  ink:'#f0e6d6',        // normal dots
+  hot:'#e3a15d',        // brightest dots
+  bg:'#161213',         // picture background behind the dots
+  changeEvery:9000,     // ms between automatic changes
+  heal:8800,            // ms for a scratch to close again
+  brush:.13             // scratch size as a share of the picture width
+};
+/* ========================================================== */
+const $=s=>document.querySelector(s);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelector('[data-title]').innerHTML=CONFIG.title[0]+'<em>'+CONFIG.title[1]+'</em>';
+document.querySelector('[data-kicker]').textContent=CONFIG.kicker;
+document.querySelector('[data-lead]').textContent=CONFIG.lead;
+document.documentElement.style.setProperty('--hot',CONFIG.hot);
+
+const cv=$('#c'),ctx=cv.getContext('2d'),frame=$('#frame');
+const N=CONFIG.photos.length;$('#tot').textContent=String(N).padStart(2,'0');
+let W=0,H=0,dpr=1,cell=0,cols=0,rows=0;
+const full=[],tone=[],imgs=[];
+const GOO=4,goo=document.createElement('canvas'),gx=goo.getContext('2d',{willReadFrequently:true});
+const gooOut=document.createElement('canvas'),gox=gooOut.getContext('2d');
+const layer=document.createElement('canvas'),lx=layer.getContext('2d');
+const trail=[];let cur=0,from=0,morph=1,lastChange=performance.now(),visible=true,pointerDown=false,downAt=null;
+
+/* ---------- demo art, drawn with code so the template works with no image files ---------- */
+function art(kind,w,h){
+  const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+  const rnd=(()=>{let s=kind.length*9301+49297;return()=>((s=(s*9301+49297)%233280)/233280)})();
+  if(kind==='dusk'){
+    let g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,'#1b1147');g.addColorStop(.45,'#a3306b');g.addColorStop(.72,'#f08a3c');g.addColorStop(1,'#ffd36e');x.fillStyle=g;x.fillRect(0,0,w,h);
+    for(let i=0;i<90;i++){x.fillStyle=`rgba(255,255,255,${rnd()*.8})`;x.fillRect(rnd()*w,rnd()*h*.45,1.5,1.5)}
+    const sx=w*.5,sy=h*.62;g=x.createRadialGradient(sx,sy,0,sx,sy,w*.55);g.addColorStop(0,'rgba(255,250,210,1)');g.addColorStop(.18,'rgba(255,205,120,.95)');g.addColorStop(1,'rgba(255,120,60,0)');x.fillStyle=g;x.fillRect(0,0,w,h);
+    [['#4a1d5e',.66,.09],['#2c1148',.74,.07],['#150a2b',.84,.05]].forEach(([col,base,amp],k)=>{x.fillStyle=col;x.beginPath();x.moveTo(0,h);for(let px=0;px<=w;px+=8)x.lineTo(px,h*base-Math.sin(px/w*(5+k*2)+k)*h*amp-Math.sin(px/w*13+k*3)*h*amp*.4);x.lineTo(w,h);x.fill()});
+  }else if(kind==='aurora'){
+    let g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,'#03101f');g.addColorStop(1,'#0a2a3a');x.fillStyle=g;x.fillRect(0,0,w,h);
+    for(let i=0;i<110;i++){x.fillStyle=`rgba(255,255,255,${rnd()*.9})`;x.fillRect(rnd()*w,rnd()*h*.7,1.6,1.6)}
+    x.globalCompositeOperation='lighter';
+    [['rgba(60,255,170,.55)',.34],['rgba(80,170,255,.4)',.42],['rgba(190,90,255,.4)',.28]].forEach(([col,y0],k)=>{for(let s=0;s<44;s++){x.strokeStyle=col.replace(/[\d.]+\)$/,(.045+s*.0016)+')');x.lineWidth=h*.012;x.beginPath();for(let px=0;px<=w;px+=10){const yy=h*y0+Math.sin(px/w*6+k*1.7)*h*.07+Math.sin(px/w*15+k)*h*.025+s*h*.0075;px?x.lineTo(px,yy):x.moveTo(px,yy)}x.stroke()}});
+    x.globalCompositeOperation='source-over';x.fillStyle='#020a12';x.fillRect(0,h*.9,w,h);
+    for(let i=0;i<26;i++){const px=rnd()*w,ph=h*(.08+rnd()*.12),pw=ph*.28;x.beginPath();x.moveTo(px,h*.9);x.lineTo(px-pw,h*.9);x.lineTo(px,h*.9-ph);x.lineTo(px+pw,h*.9);x.fill()}
+  }else{
+    let g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,'#1a0505');g.addColorStop(1,'#4a0d0d');x.fillStyle=g;x.fillRect(0,0,w,h);
+    const cx=w*.5,cy=h*.46;g=x.createRadialGradient(cx,cy,0,cx,cy,w*.62);g.addColorStop(0,'#fff6c8');g.addColorStop(.2,'#ffb02e');g.addColorStop(.5,'#e8431a');g.addColorStop(1,'rgba(120,10,10,0)');x.fillStyle=g;x.fillRect(0,0,w,h);
+    for(let r=1;r<=6;r++){x.strokeStyle=`rgba(255,220,150,${.5-r*.06})`;x.lineWidth=2;x.beginPath();x.arc(cx,cy,w*(.1+r*.07),0,6.283);x.stroke()}
+    for(let i=0;i<150;i++){const a=rnd()*6.283,d=w*(.1+rnd()*.55);x.fillStyle=`rgba(255,${150+rnd()*100|0},60,${.3+rnd()*.7})`;x.beginPath();x.arc(cx+Math.cos(a)*d,cy+Math.sin(a)*d*1.2,1+rnd()*3.4,0,6.283);x.fill()}
+  }
+  return c;
+}
+function cover(img,w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d'),s=Math.max(w/img.naturalWidth,h/img.naturalHeight);x.drawImage(img,(w-img.naturalWidth*s)/2,(h-img.naturalHeight*s)*.35,img.naturalWidth*s,img.naturalHeight*s);return c}
+
+/* ---------- sizing and preparing each picture ---------- */
+function size(){
+  const r=frame.getBoundingClientRect();if(!r.width)return false;
+  dpr=Math.min(devicePixelRatio||1,2);W=Math.round(r.width*dpr);H=Math.round(r.height*dpr);
+  cv.width=layer.width=W;cv.height=layer.height=H;
+  goo.width=gooOut.width=Math.max(8,Math.ceil(r.width/GOO));goo.height=gooOut.height=Math.max(8,Math.ceil(r.height/GOO));
+  cell=Math.max(5,Math.round(r.width/60))*dpr;cols=Math.ceil(W/cell);rows=Math.ceil(H/cell);
+  CONFIG.photos.forEach((p,i)=>{tone[i]=null;full[i]=null});
+  return true;
+}
+function prepare(i){
+  if(tone[i])return true;
+  const p=CONFIG.photos[i];let f;
+  if(p.src){const im=imgs[i];if(!im||!im.complete||!im.naturalWidth)return false;f=cover(im,W,H)}else f=art(p.art||'dusk',W,H);
+  const s=document.createElement('canvas');s.width=cols;s.height=rows;const sx=s.getContext('2d');sx.drawImage(f,0,0,cols,rows);
+  const d=sx.getImageData(0,0,cols,rows).data,t=new Float32Array(cols*rows);
+  for(let k=0;k<cols*rows;k++)t[k]=Math.pow((.299*d[k*4]+.587*d[k*4+1]+.114*d[k*4+2])/255,1.15);
+  tone[i]=t;full[i]=f;return true;
+}
+CONFIG.photos.forEach((p,i)=>{if(p.src){const im=new Image();im.src=p.src;imgs[i]=im}});
+
+/* ---------- drawing ---------- */
+function drawDots(){
+  const A=tone[cur],B=tone[from];if(!A)return;
+  ctx.fillStyle=CONFIG.bg;ctx.fillRect(0,0,W,H);
+  for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
+    const k=y*cols+x;let v=A[k];
+    if(morph<1&&B){const delay=((x/cols)*.55+(y/rows)*.45)*.6,p=Math.max(0,Math.min(1,(morph-delay)/.4)),e=p*p*(3-2*p);v=B[k]+(A[k]-B[k])*e;v*=1+Math.sin(e*Math.PI)*.35}
+    if(v<.04)continue;
+    ctx.fillStyle=v>.72?CONFIG.hot:CONFIG.ink;ctx.globalAlpha=Math.min(1,.35+v*.65);
+    ctx.beginPath();ctx.arc(x*cell+cell/2,y*cell+cell/2,Math.max(.5,Math.min(v,1.1)*cell*.55),0,6.283);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+}
+function drawReveal(now){
+  /* soft blobs along the scratch, drawn small; they shrink as they age and merge like drops of water */
+  gx.clearRect(0,0,goo.width,goo.height);let any=false;
+  for(let i=trail.length-1;i>=0;i--){
+    const t=trail[i],age=(now-t.t)/CONFIG.heal;if(age>=1){trail.splice(i,1);continue}
+    const k=1-age*age,r=t.r*k/GOO;if(r<.6)continue;any=true;
+    const g=gx.createRadialGradient(t.x/GOO,t.y/GOO,0,t.x/GOO,t.y/GOO,r);g.addColorStop(0,'rgba(0,0,0,1)');g.addColorStop(.55,'rgba(0,0,0,.8)');g.addColorStop(1,'rgba(0,0,0,0)');
+    gx.fillStyle=g;gx.beginPath();gx.arc(t.x/GOO,t.y/GOO,r,0,6.283);gx.fill();
+  }
+  if(!any||!full[cur])return;
+  /* turn the soft shape into a crisp, slightly wobbling edge */
+  const im=gx.getImageData(0,0,goo.width,goo.height),d=im.data;
+  for(let i=3;i<d.length;i+=4){const a=d[i]/255,e=Math.max(0,Math.min(1,(a-.38)/.2));d[i]=e*e*(3-2*e)*255;d[i-3]=d[i-2]=d[i-1]=0}
+  gox.putImageData(im,0,0);
+  lx.globalCompositeOperation='source-over';lx.clearRect(0,0,W,H);lx.drawImage(full[cur],0,0);
+  lx.globalCompositeOperation='destination-in';lx.imageSmoothingEnabled=true;lx.imageSmoothingQuality='high';lx.drawImage(gooOut,0,0,W,H);
+  lx.globalCompositeOperation='source-over';ctx.drawImage(layer,0,0);
+}
+
+/* ---------- changing picture ---------- */
+function go(to){
+  if(N<2)return;from=cur;cur=to%N;morph=0;lastChange=performance.now();
+  $('#cap').textContent=CONFIG.photos[cur].caption;$('#idx').textContent=String(cur+1).padStart(2,'0');
+}
+
+/* ---------- input ---------- */
+function pos(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*dpr,y:(e.clientY-r.top)*dpr}}
+let lastPt=null;
+function scratch(p,now,power=1){
+  const R=CONFIG.brush*W*power;
+  if(lastPt){const dx=p.x-lastPt.x,dy=p.y-lastPt.y,dist=Math.hypot(dx,dy),n=Math.max(1,Math.ceil(dist/(R*.35)));for(let i=1;i<=n;i++)trail.push({x:lastPt.x+dx*i/n,y:lastPt.y+dy*i/n,r:R,t:now})}
+  else trail.push({x:p.x,y:p.y,r:R,t:now});
+  lastPt=p;if(trail.length>260)trail.splice(0,trail.length-260);
+  $('#hint').classList.add('gone');
+}
+cv.addEventListener('pointermove',e=>{scratch(pos(e),performance.now())},{passive:true});
+cv.addEventListener('pointerleave',()=>{lastPt=null});
+cv.addEventListener('pointerdown',e=>{pointerDown=true;downAt={x:e.clientX,y:e.clientY,t:performance.now()};lastPt=null;scratch(pos(e),performance.now(),1.2)});
+cv.addEventListener('pointerup',e=>{
+  if(downAt&&Math.hypot(e.clientX-downAt.x,e.clientY-downAt.y)<8&&performance.now()-downAt.t<450)go(cur+1);
+  pointerDown=false;downAt=null;lastPt=null;
+});
+document.addEventListener('visibilitychange',()=>{visible=!document.hidden});
+new IntersectionObserver(es=>{visible=es[0].isIntersecting&&!document.hidden}).observe(frame);
+
+/* a first, scripted scratch so people see what to do */
+function demo(){
+  if(reduce)return;const t0=performance.now();let last=null;
+  (function step(now){
+    const p=(now-t0)/2200;if(p>1){lastPt=null;return}
+    const x=W*(.2+.6*p),y=H*(.55+Math.sin(p*6.283*1.2)*.16-p*.12);scratch({x,y},now,.9);requestAnimationFrame(step)
+  })(performance.now());
+}
+
+/* ---------- loop ---------- */
+let rt=0;
+function frameLoop(now){
+  requestAnimationFrame(frameLoop);if(!visible||!W)return;
+  if(!prepare(cur)){return}
+  if(morph<1){prepare(from);morph=Math.min(1,morph+(now-(frameLoop.l||now))/1500)}
+  frameLoop.l=now;
+  if(N>1&&!reduce&&now-lastChange>CONFIG.changeEvery&&!trail.length&&morph>=1&&!pointerDown)go(cur+1);
+  drawDots();drawReveal(now);
+}
+function boot(){if(!size()){requestAnimationFrame(boot);return}
+  $('#cap').textContent=CONFIG.photos[0].caption;requestAnimationFrame(frameLoop);setTimeout(demo,900)}
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(size,150)});
+boot();
+</script>
+</body>
+</html>
