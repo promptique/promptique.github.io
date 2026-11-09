@@ -1,0 +1,55 @@
+ROLE
+You are a senior technical SEO engineer. Audit and improve the search visibility of the website in this folder, end to end, without asking me questions. Work autonomously. If something is missing, make the safest reasonable choice and list it in your final report.
+
+RULES
+1. Never invent facts: no fake reviews, ratings, awards, prices, addresses, phone numbers or claims. Use only what is already in the site or what I wrote below.
+2. Do not change the visual design, layout or copy tone except for titles, descriptions, headings that are clearly broken, and alt text.
+3. Work on a new git branch. Commit in small steps. Never push to the main branch and never delete files.
+4. Install only well known open source tools from the official registries (npm or pip). Do not run scripts from unknown sources.
+5. After every change, rebuild the site and confirm it still builds and every page still loads.
+
+STEP 1. DISCOVER
+Detect the framework (plain HTML, Astro, Next.js, Vite, etc.), the build command, the output folder, the live domain, and list every page. Print a short map before changing anything.
+
+STEP 2. AUDIT EVERY PAGE, THEN FIX
+- Title: unique per page, 30 to 60 characters, main keyword first, brand last.
+- Meta description: unique, 120 to 160 characters, written for a human, with a reason to click.
+- One h1 per page, logical h2 and h3 order, no skipped levels.
+- Canonical link on every page pointing to the final https address (no trailing slash mix).
+- lang attribute on html, viewport meta, charset.
+- Open Graph and Twitter card tags with a real image (1200x630) that exists.
+- Images: width and height set, descriptive alt text (empty alt only for pure decoration), modern format (webp or avif) where safe, lazy loading below the fold, the main hero image NOT lazy loaded.
+- Internal links: no broken links, no orphan pages, descriptive link text.
+- 404 page exists and returns a helpful message.
+
+STEP 3. STRUCTURED DATA (JSON-LD)
+Add only types that match real content: WebSite, Organization or Person, BreadcrumbList for deep pages, Product or SoftwareApplication or Event or FAQPage only when the page truly contains it. Validate that the JSON parses. Never mark up content that is not visible on the page.
+
+STEP 4. CRAWL FILES
+- robots.txt: allow everything public, block only private or utility paths, and link the sitemap.
+- sitemap: generate it from the real page list (use the framework sitemap plugin if one exists). Only 200-status, canonical, indexable pages. Include the correct absolute https URLs.
+- Make sure no page has an accidental noindex.
+
+STEP 5. SPEED AND CORE WEB VITALS
+- Find the biggest files. Compress or resize oversized images. Remove unused CSS and JS where safe.
+- Preload only the one critical font or hero image. Use font-display: swap.
+- Avoid layout shift: reserve space for images, embeds and fonts.
+- Defer non-critical scripts. Pause heavy animation and canvas loops when off screen or when the tab is hidden.
+- Report before and after page weight for the home page.
+
+STEP 6. ACCESSIBILITY (it also helps ranking)
+Check contrast, focus states, button and link names, form labels, and the prefers-reduced-motion setting. Fix the safe ones.
+
+STEP 7. SEARCH CONSOLE PREPARATION
+Do not try to log in to anything. Prepare: the exact sitemap URL to submit, and the property type to use (URL prefix). If I give you a verification file or meta tag below, add it.
+
+STEP 8. FINAL REPORT
+Give me: what you changed (one line each), what you found but did not change and why, what only I can do (Search Console verification and sitemap submission, Google Business Profile, backlinks, real reviews), page weight before and after, and a ranked list of the 5 highest-impact next actions. Be blunt. Do not pad.
+
+MY SITE DETAILS (fill in before you paste, or leave as is)
+- Live address:
+- Brand name:
+- What the site offers, in one sentence:
+- Main search phrases I want to rank for:
+- City or region I serve, if any:
+- Search Console verification code, if I have one:
