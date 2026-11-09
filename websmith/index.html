@@ -66,12 +66,13 @@ nav a{font:600 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;
 .fade{opacity:0;animation:fu 1s cubic-bezier(.2,.8,.2,1) forwards}@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .cue{position:absolute;right:5vw;bottom:9vh;writing-mode:vertical-rl;font:600 10px/1 var(--sans);letter-spacing:.4em;text-transform:uppercase;color:var(--mut)}
 /* manifesto */
-#mf{height:300vh}
-.mfs{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
-.ml{margin:.06em 0;font:400 clamp(54px,9.5vw,170px)/.92 var(--disp);text-transform:uppercase;white-space:nowrap;will-change:transform;text-shadow:0 10px 40px rgba(0,0,0,.6)}
-.ml:nth-child(2){text-align:right;color:transparent;-webkit-text-stroke:1.5px var(--gold2)}
-.ml:nth-child(3){font-family:var(--serif);font-style:italic;font-weight:500;text-transform:none;color:var(--gold2);font-size:clamp(44px,7vw,120px)}
-.ml span{display:inline-block}
+#mf{height:210vh}
+.mfs{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden;padding:0 5vw}
+.mfs:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 50%,rgba(5,5,6,.82) 0%,rgba(5,5,6,.6) 45%,rgba(5,5,6,.15) 80%,transparent);opacity:var(--scrim,0);pointer-events:none}
+.ml{position:relative;margin:.12em 0;font:400 clamp(46px,7.4vw,128px)/1 var(--disp);text-transform:uppercase;letter-spacing:.01em;color:#f6f2e9;text-shadow:0 4px 30px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.8);opacity:0;will-change:transform,opacity,filter}
+.ml:nth-child(2){color:transparent;background:linear-gradient(180deg,#fff2cf 0%,var(--gold2) 40%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;text-shadow:none;filter:drop-shadow(0 4px 24px rgba(0,0,0,.9))}
+.ml:nth-child(3){font-family:var(--serif);font-style:italic;font-weight:500;text-transform:none;letter-spacing:0;color:var(--gold2);font-size:clamp(36px,5vw,84px);margin-top:.35em}
+.mstep{position:relative;margin-top:4vh;display:flex;gap:8px;justify-content:center}.mstep i{width:34px;height:2px;background:rgba(255,255,255,.18);position:relative;overflow:hidden}.mstep i b{position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left}
 /* band */
 .band{position:relative;z-index:2;overflow:hidden;white-space:nowrap;padding:22px 0;border-block:1px solid rgba(217,180,108,.3);background:rgba(5,5,6,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .band div{display:inline-block;font:400 30px/1 var(--disp);letter-spacing:.14em;text-transform:uppercase;will-change:transform}
@@ -137,7 +138,7 @@ footer a:hover{color:var(--gold)}footer .ln{display:flex;gap:24px}
 @media(max-width:900px){
  nav a{display:none}header .wrap{height:64px}
  .word{font-size:11.4vw}.hlbl{top:13vh}#hero{padding-bottom:7vh}.cue{display:none}
- .ml{font-size:13.5vw;white-space:normal;padding:0 5vw}.ml:nth-child(2){text-align:left}.ml:nth-child(3){font-size:11vw}
+ .ml{font-size:11.5vw}.ml:nth-child(3){font-size:8.5vw}
  .band div{font-size:22px}
  .sec{padding:110px 0 30px}.shead{margin-bottom:40px}
  .cards,.steps,.more{grid-template-columns:1fr}
@@ -166,6 +167,7 @@ footer a:hover{color:var(--gold)}footer .ln{display:flex;gap:24px}
   <div class="ml" id="m0">We don't build pages.</div>
   <div class="ml" id="m1">We build moments.</div>
   <div class="ml" id="m2">Scroll. Touch. Remember.</div>
+  <div class="mstep"><i><b></b></i><i><b></b></i><i><b></b></i></div>
 </div></section>
 
 <div class="band"><div id="bandin"></div></div>
@@ -292,7 +294,7 @@ PRODUCTS.forEach((p,i)=>{const d=document.createElement('article');d.className='
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.15});
 document.querySelectorAll('.sl,.card').forEach(e=>io.observe(e));
 /* manifesto words */
-const ML=[0,1,2].map(i=>{const el=$('#m'+i);const ws=el.textContent.split(' ');el.innerHTML=ws.map(w=>`<span>${w}</span>`).join(' ');return{el,ws:[...el.children],done:false}});
+const ML=[0,1,2].map(i=>({el:$('#m'+i)}));
 /* prompt modal */
 let cur=null;
 function openP(id){cur=id;$('#mt').textContent=PRODUCTS.find(x=>x.id===id).title;$('#mp').textContent=PROMPTS[id]||'';$('#md').classList.add('on');document.body.style.overflow='hidden'}
@@ -410,9 +412,9 @@ function A(id,f){const e=secEl(id);return e.offsetTop+f*Math.max(1,e.offsetHeigh
 let KEYS=[];
 function buildKeys(){const k=(a,o)=>KEYS.push([a,o]);KEYS=[];
  k(0,{c:[0,.25,5.6],l:[0,-.1,0],r:[0,0,0],rs:1,sky:0,ring:1});
- k(A('mf',.0),{c:[3.4,.7,3.6],l:[0,.1,0],r:[0,0,0],rs:1,sky:.05,ring:.4});
- k(A('mf',.5),{c:[-1.5,-1.2,3.3],l:[0,.3,0],r:[0,0,0],rs:1,sky:.1,ring:.15});
- k(A('mf',1),{c:[-3.2,1.6,3.6],l:[0,0,0],r:[0,0,0],rs:1,sky:.2,ring:0});
+ k(A('mf',.0),{c:[3.8,.8,4.8],l:[0,.1,0],r:[0,0,0],rs:1,sky:.05,ring:.4});
+ k(A('mf',.5),{c:[-1.9,-1.1,4.9],l:[0,.3,0],r:[0,0,0],rs:1,sky:.1,ring:.15});
+ k(A('mf',1),{c:[-3.6,1.7,4.6],l:[0,0,0],r:[0,0,0],rs:1,sky:.2,ring:0});
  k(A('templates',0)-innerHeight*.4,{c:[0,3.2,7.5],l:[0,-1.5,-14],r:[2.6,-.6,-3],rs:.55,sky:.5,ring:0});
  k(A('templates',.5),{c:[0,2.4,-12],l:[0,-2.5,-34],r:[3.4,.8,-22],rs:.7,sky:.95,ring:0});
  k(A('how',0),{c:[0,3.2,-30],l:[0,-1.5,-55],r:[-3.6,1.4,-44],rs:.85,sky:1,ring:0});
@@ -479,11 +481,13 @@ function frame(now){const t=now/1000,dt=Math.min(.05,(now-last)/1000);last=now;
   gl.bindVertexArray(quad.v);gl.drawArrays(gl.TRIANGLES,0,6)}
  gl.useProgram(PP.p);gl.uniformMatrix4fv(PP.u.uVP,false,VP);gl.uniform1f(PP.u.uPx,H*.012);gl.uniform1f(PP.u.uT,t);gl.uniform1f(PP.u.uA,.9);gl.bindVertexArray(dust.v);gl.drawArrays(gl.POINTS,0,dust.n);
  gl.disable(gl.BLEND);gl.depthMask(true);
- /* manifesto slide */
- {const e=secEl('mf'),r=e.getBoundingClientRect(),p=clamp(-r.top/(r.height-innerHeight));
-  ML.forEach((L,i)=>{const a=clamp((p-i*.22)/.3),e2=1-Math.pow(1-a,3);const dir=i===1?1:-1;L.el.style.transform=`translateX(${dir*(1-e2)*60}vw)`;L.el.style.opacity=.15+.85*e2;
-   L.ws.forEach((w,j)=>w.style.transform=`translateY(${(1-sm(j*.12,j*.12+.6,a))*40}px)`);
-   });}
+ /* manifesto: each line rises into place and stays readable */
+ {const e=secEl('mf'),r=e.getBoundingClientRect(),p=clamp(-r.top/(r.height-innerHeight)),vis=r.top<innerHeight&&r.bottom>0;
+  const mfs=e.firstElementChild;mfs.style.setProperty('--scrim',(sm(-.15,.05,p)*(1-sm(.9,1,p))).toFixed(3));
+  const steps=mfs.querySelectorAll('.mstep b');
+  ML.forEach((L,i)=>{const a=sm(i*.2,i*.2+.16,p)*(1-sm(.9,1,p)*.0);const out=sm(.92,1,p);
+   L.el.style.opacity=(a*(1-out*.85)).toFixed(3);L.el.style.transform=`translateY(${(1-a)*36-out*30}px) scale(${.96+.04*a})`;L.el.style.filter=i===1?`drop-shadow(0 4px 24px rgba(0,0,0,.9)) blur(${(1-a)*8}px)`:`blur(${(1-a)*8}px)`;
+   if(steps[i])steps[i].style.transform=`scaleX(${a})`});}
  {const b=$('#bandin'),r=b.parentNode.getBoundingClientRect();b.style.transform=`translateX(${-((innerHeight-r.top)*.35)%(b.scrollWidth/3)}px)`}
  $('#hd').classList.toggle('solid',scrollY>40);
  requestAnimationFrame(frame)}
